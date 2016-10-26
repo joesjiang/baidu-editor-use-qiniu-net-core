@@ -7,13 +7,13 @@
 
 
 ### 运行示例
-替换 QiniuFileController.cs 中的以下部分即可直接运行。
+设置 QiniuFileController.cs 中的以下部分即可直接运行。
 
 ```csharp
   private readonly string accessKey = "xxx"; // 七牛提供的 AccessKey
   private readonly string secretKey = "xxx"; // 七牛提供的 SecretKey
   private readonly string bucket = "xx"; // 在七牛设置的空间名
-  private readonly string suffix = "-s"; // 在七牛设置的缩略图后缀
+  private readonly string suffix = "";   // 在七牛设置的缩略图后缀
   private readonly string domain = "http://xxx.com"; // 在七牛绑定的域名
 ```
 
