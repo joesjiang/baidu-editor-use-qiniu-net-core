@@ -31,9 +31,9 @@
 4、新建任意测试视图，引入UEditor相关文件，即可正常使用。
 ```html
 <div>
-        <script type="text/plain" id="content" name="content" >
-            UEditor 测试内容
-        </script>
+    <script type="text/plain" id="content" name="content" >
+        UEditor
+    </script>
 </div>
 <script src="~/lib/ueditor/ueditor.config.js"></script>
 <script src="~/lib/ueditor/ueditor.all.js"></script>
