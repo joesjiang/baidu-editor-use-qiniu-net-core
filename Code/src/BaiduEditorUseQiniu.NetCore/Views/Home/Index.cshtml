@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "首页";
+}
+<div style="text-align:center;">
+    <form id="form" method="post" action="/">
+        <script type="text/plain" id="content" name="content" style="width:800px;height:320px; text-align:left; margin:10px auto;">
+            @Html.Raw(ViewBag.Content)
+        </script>
+        <br />
+        <br />
+        <input type="hidden" name="Picture" id="Picture" value="@ViewBag.Picture" />
+        <input type="submit" value="Submit">
+    </form>
+    <br />
+    <br />
+    <h3>文件上传测试</h3>
+    <div id="upload">
+        <a id="uploadButton" href="javascript:void(0);">
+            +
+            <input type="file" name="file" id="file" />
+        </a>
+    </div>
+</div>@section script{
+<script src="~/lib/ueditor/ueditor.config.js"></script>
+<script src="~/lib/ueditor/ueditor.all.js"></script>
+<script type="text/javascript">
+    var ue = UE.getEditor('content');
+    var fsDomain, upDomain, key, token, suffix;
+
+    InitParams();
+    InitPicture();
+
+    $("#upload").on("click", "img", function () { $(this).remove(); UpdatePicture(); });
+
+    $("#file").change(function () {
+        var fs = $("#file")[0].files;
+        if (fs.length > 0) QiniuUpload(fs[0]);
+    });
+
+    function QiniuUpload(file) {
+
+        var ext = file.name.split('.').pop().toLowerCase();
+        var allow = ["png", "jpg", "jpeg", "bmp", "gif"]
+
+        if (allow.indexOf(ext) < 0) {
+            alert("文件格式错误。");
+            return;
+        }
+
+        var formData = new FormData();
+
+        formData.append('key', key);
+        formData.append('token', token);
+        formData.append('file', file);
+
+        var xhr = new XMLHttpRequest();
+
+        xhr.open('POST', upDomain, true);
+        xhr.send(formData);
+        xhr.onreadystatechange = function (response) {
+            if (xhr.readyState == 4 && xhr.status == 200 && xhr.responseText != "") {
+                var url = JSON.parse(xhr.responseText).key;
+                $("#uploadButton").before("<img width='100' height='100' title='单击删除' src='" + fsDomain + "/" + url + suffix + "'/>");
+                UpdatePicture();
+                InitParams();
+            } else if (xhr.status != 200 && xhr.responseText) {
+                alert(xhr.responseText);
+            }
+        };
+    }
+
+    function UpdatePicture() {
+        var urls = new Array();
+        $("#upload").children("img").each(function () {
+            urls.push((this).src.replace(suffix, ""));
+        });
+        if (urls.length > 0) {
+            $("#Picture").val(urls.join(","));
+        }
+        else {
+            $("#Picture").val("");
+        }
+    }
+
+    function InitPicture() {
+        var imgs = $("#Picture").val();
+        if (imgs.length > 0) {
+            var arr = imgs.split(',');
+            arr.forEach(function (item) {
+                $("#uploadButton").before("<img width='100' height='100' title='单击删除' src='" + item + suffix + "'/>");
+            });
+        }
+    }
+
+    function InitParams() {
+        $.ajax({
+            async: false,
+            type: "get",
+            url: "/qiniufile/getToken?filetype=image",
+            dataType: 'json',
+            success: function (data) {
+                fsDomain = data.fsdomain;
+                upDomain = data.updomain;
+                key = data.filename;
+                token = data.token;
+                suffix = data.suffix;
+            }
+        });
+    }
+</script>
+}
