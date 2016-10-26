@@ -1,10 +1,10 @@
-## UEditor For ASP.Net Core Use Qiniu
+### UEditor For ASP.Net Core Use Qiniu
 
 - 此项目为UEditor提供文件管理;
 - 后端服务使用 ASP.Net Core;
 - 使用七牛提供的云存储;
 
-## 运行示例
+### 运行示例
 替换 QiniuFileController.cs 中的以下部分即可直接运行。
 
 ```csharp
@@ -15,7 +15,7 @@
   private readonly string domain = "http://xxx.com"; // 在七牛绑定的域名
 ```
 
-##在你自己的项目中使用步骤
+### 在你自己的项目中使用步骤
 1、在你的项目文件 project.json 中添加引用 DevZH.Qiniu。
 ```csharp
 "dependencies": {
@@ -39,5 +39,5 @@
 </script>
 ```
 
-##about
+### about
 joes@live.com
