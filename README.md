@@ -27,7 +27,9 @@
   }
 ```
 2、将示例项目的 wwwroot\lib\ueditor 整个文件夹复制到你项目的同样位置。
+
 3、将示例项目的 QiniuFileController.cs 复制到你项目的同样位置并修改相关的设置信息。
+
 4、新建任意测试视图，引入UEditor相关文件，即可正常使用。
 ```html
 <div>
